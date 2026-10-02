@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="monetag" content="d22be73ddd33475e9c734af16f02de91">
+<title>ART & BOOKS.w.c — PERSONAL MUSEUM</title>
+
+<style>
+body{
+  margin:0;
+  background:radial-gradient(circle at 50% -10%,#5a1b12 0,transparent 32%),linear-gradient(145deg,#160607,#3a0808 50%,#170806);
+  color:#f0dfb0;
+  font-family:Arial;
+}
+
+/* HEADER */
+header{
+  padding:45px;
+  text-align:center;
+  font-size:28px;
+  letter-spacing:4px;
+  background:linear-gradient(145deg,#520b10,#21100b);
+}
+
+/* SUBTITLE */
+.sub{
+  text-align:center;
+  color:#d2c19a;
+  margin-top:-20px;
+  margin-bottom:20px;
+  font-size:13px;
+}
+
+/* SEARCH */
+input{
+  width:90%;
+  display:block;
+  margin:20px auto;
+  padding:12px;
+  border-radius:8px;
+  border:none;
+}
+
+/* SECTION TITLE */
+h2{
+  margin-left:20px;
+  border-left:4px solid #c9a227;
+  padding-left:10px;
+}
+
+/* ART GRID */
+.grid{
+  columns:300px;
+  column-gap:15px;
+  padding:20px;
+}
+
+/* CARD */
+.card{
+  background:linear-gradient(145deg,#5a0b10,#21100b);border:1px solid #c9a22799;
+  margin-bottom:15px;
+  border-radius:12px;
+  overflow:hidden;
+  break-inside:avoid;
+  transition:0.3s;
+  cursor:pointer;
+}
+
+.card:hover{
+  transform:scale(1.02);
+}
+
+.card img{
+  width:100%;
+  cursor:pointer;
+}
+
+/* TEXT BLOCK */
+.info{
+  padding:10px;
+}
+
+.code{
+  color:#e6c65c;
+  font-weight:bold;
+  font-size:13px;
+}
+
+.title{
+  font-size:15px;
+  margin-top:5px;
+}
+
+.subtitle{
+  font-size:12px;
+  color:#d2c19a;
+}
+
+/* BUTTON */
+.btn{
+  display:block;
+  padding:10px;
+  margin:6px;
+  text-align:center;
+  background:linear-gradient(145deg,#641015,#2a0809);
+  color:#f0dfb0;
+  text-decoration:none;
+  border-radius:8px;
+  transition:0.3s;
+}
+
+.btn:hover{
+  background:#74151a;
+}
+
+/* LIGHTBOX */
+#lightbox{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.95);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:999;
+}
+
+#lightbox img{
+  max-width:90%;
+  max-height:80%;
+  border-radius:10px;
+}
+
+#lightbox span{
+  margin-top:10px;
+  color:#ccc;
+}
+
+/* CLOSE BUTTON */
+.close-btn{
+  position:absolute;
+  top:20px;
+  right:30px;
+  color:#ccc;
+  font-size:28px;
+  font-weight:bold;
+  cursor:pointer;
+  z-index:1000;
+}
+
+.close-btn:hover{
+  color:#f0dfb0;
+}
+</style>
+</head>
+
+<body>
+
+<header>ART & BOOKS.w.c</header>
+<div class="sub">Personal Museum • Archive System • MK / IT / ITMK / D Collection</div>
+
+<input id="search" placeholder="Search ART / PAYMENTS / PROJECTS / APPS">
+
+<!-- ART -->
+<h2>ART ARCHIVE</h2>
+<div class="grid" id="art"></div>
+
+<!-- PAYMENTS -->
+<h2>COLLECTION / PAYMENTS</h2>
+<div id="payments"></div>
+
+<!-- PROJECTS -->
+<h2>PROJECTS VAULT</h2>
+<div id="projects"></div>
+
+<!-- APPS -->
+<h2>SYSTEM LINKS</h2>
+<div id="apps"></div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox(event)">
+  <span class="close-btn" onclick="closeLightbox(event)">&times;</span>
+  <img id="lightbox-img" alt="">
+  <span id="lightbox-title"></span>
+</div>
+
+<script>
+
+/* =========================
+   PERSONAL ART ARCHIVE (YOUR STYLE)
+========================= */
+
+const ART = [
+  {
+    img:"images/mk241.jpg",
+    code:"ITMK241",
+    title:"Знаење и Живот",
+    subtitle:"La Conoscenza e la Vita • Dual Language Archive",
+    series:"ITMK"
+  },
+  {
+    img:"images/it242.jpg",
+    code:"IT242",
+    title:"Spectrum of Existence",
+    subtitle:"Abstract Energy Field Composition",
+    series:"IT"
+  },
+  {
+    img:"images/frozen.jpg",
+    code:"IT243",
+    title:"Frozen Memory",
+    subtitle:"Time • Ice • Light Structure",
+    series:"IT"
+  },
+  {
+    img:"images/flowers.jpg",
+    code:"IT244",
+    title:"Flowers of Silence",
+    subtitle:"Nature Memory / Emotional Contrast",
+    series:"IT"
+  },
+  {
+    img:"images/d007.jpg",
+    code:"D007",
+    title:"DRACONIS CORE",
+    subtitle:"Dark Archive / Symbolic System",
+    series:"D"
+  }
+];
+
+/* =========================
+   PLATFORM SYSTEM
+========================= */
+
+const DATA = [
+  /* PAYMENTS */
+  "https://buy.stripe.com/9B65kE81Gd34gJTehNcjS0c",
+  "https://wise.com/pay/r/jPLz1Rs0VI8H-n0",
+
+  /* PROJECTS */
+  "https://github.com/Pr791610/art-books-sandbox-system",
+  "https://github.com/Pr791610/manasiev-art-books",
+
+  /* APPS */
+  "https://art-books-cupon-valore.netlify.app",
+  "https://qr-art-certificate-system.netlify.app"
+];
+
+/* =========================
+   UTILITY FUNCTIONS
+========================= */
+
+function escapeHtml(text) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, m => map[m]);
+}
+
+/* =========================
+   RENDER ART
+========================= */
+
+function renderArt(){
+  const artDiv = document.getElementById("art");
+  artDiv.innerHTML = "";
+  
+  ART.forEach(a => {
+    const card = document.createElement("div");
+    card.className = "card";
+    
+    const img = document.createElement("img");
+    img.src = a.img;
+    img.alt = a.title;
+    img.onclick = () => openLightbox(a.img, a.title);
+    
+    const info = document.createElement("div");
+    info.className = "info";
+    info.innerHTML = `
+      <div class="code">N° ${escapeHtml(a.code)}</div>
+      <div class="title">${escapeHtml(a.title)}</div>
+      <div class="subtitle">${escapeHtml(a.subtitle)}</div>
+    `;
+    
+    card.appendChild(img);
+    card.appendChild(info);
+    artDiv.appendChild(card);
+  });
+}
+renderArt();
+
+/* =========================
+   PLATFORM ENGINE
+========================= */
+
+function renderPlatform(filter = ""){
+  const payments = document.getElementById("payments");
+  const projects = document.getElementById("projects");
+  const apps = document.getElementById("apps");
+  
+  payments.innerHTML = "";
+  projects.innerHTML = "";
+  apps.innerHTML = "";
+
+  DATA
+    .filter(u => u.toLowerCase().includes(filter.toLowerCase()))
+    .forEach(url => {
+      let btn = document.createElement("a");
+      btn.className = "btn";
+      btn.href = url;
+      btn.target = "_blank";
+      btn.rel = "noopener noreferrer";
+
+      if(url.includes("stripe") || url.includes("wise")){
+        btn.textContent = "💳 Payment System";
+        payments.appendChild(btn);
+      }
+      else if(url.includes("github")){
+        btn.textContent = "🧠 Repository";
+        projects.appendChild(btn);
+      }
+      else{
+        btn.textContent = "🔗 Open System";
+        apps.appendChild(btn);
+      }
+    });
+}
+renderPlatform();
+
+/* =========================
+   LIGHTBOX
+========================= */
+
+function openLightbox(img, title){
+  document.getElementById("lightbox").style.display = "flex";
+  document.getElementById("lightbox-img").src = img;
+  document.getElementById("lightbox-title").textContent = title;
+}
+
+function closeLightbox(event){
+  if(event.target.id === "lightbox" || event.target.classList.contains("close-btn")){
+    document.getElementById("lightbox").style.display = "none";
+  }
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+document.getElementById("search").addEventListener("input", e => {
+  renderPlatform(e.target.value);
+});
+
+</script>
+  
+</div>
+  <style>
+.hub-button{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  text-decoration:none;
+  color:#f5d77a;
+  background:linear-gradient(145deg,#17120b,#30230d,#120e09);
+  border:1px solid #b8943d;
+  border-radius:16px;
+  padding:18px 12px;
+  min-height:110px;
+  box-shadow:0 0 14px rgba(212,168,65,.25),
+             inset 0 0 12px rgba(255,215,120,.08);
+  transition:.25s;
+}
+
+.hub-button:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 24px rgba(212,168,65,.5);
+}
+
+.hub-button span{
+  font-weight:bold;
+  font-size:15px;
+  letter-spacing:1px;
+  margin-top:6px;
+}
+
+.hub-button small{
+  font-size:10px;
+  color:#d8c28a;
+  margin-top:5px;
+}
+</style>
+
+
+
+<style>
+/* MAX PRO Orthodox navigation */
+.maxpro-orth{max-width:1100px;margin:30px auto;padding:18px;border:1px solid #c9a22766;border-radius:16px;background:linear-gradient(145deg,#3b090d,#21100b);box-shadow:0 12px 30px #0008,inset 0 0 24px #c9a22712}
+.maxpro-orth h2{margin:0 0 14px;color:#e6c65c;border-left:4px solid #c9a227;padding-left:10px}
+.maxpro-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.maxpro-btn{display:block;padding:15px;text-align:center;text-decoration:none;font-weight:bold;border:1px solid #c9a227;border-radius:11px;background:linear-gradient(145deg,#641015,#2a0809);color:#f0dfb0;box-shadow:0 6px 16px #0007;transition:.2s}
+.maxpro-btn:hover{transform:translateY(-2px);border-color:#e6c65c;box-shadow:0 0 18px #c9a22733}
+.maxpro-code{display:inline-block;margin:5px;padding:8px 12px;border:1px solid #c9a227;border-radius:9px;color:#e6c65c;background:#3a0808}
+</style>
+<section class="maxpro-orth">
+<h2>☦ ПРАВОСЛАВЕН ВЕРСКИ КАЛЕНДАР</h2>
+<div class="maxpro-grid">
+<a class="maxpro-btn" href="pravoslaven-hub.html">☦ ПРАВОСЛАВЕН ВЕРСКИ КАЛЕНДАР</a>
+<a class="maxpro-btn" href="crkvi.html">⛪ ПРАВОСЛАВНИ ЦРКВИ</a>
+<a class="maxpro-btn" href="manastiri.html">🏛️ ПРАВОСЛАВНИ МАНАСТИРИ</a>
+<a class="maxpro-btn" href="crkvi-manastiri.html">🗺️ ЦРКВИ + МАНАСТИРИ • КАРТА / GPS</a>
+</div>
+</section>
+<section class="maxpro-orth">
+<h2>🎟️ COUPON SYSTEM</h2>
+<div>
+<a class="maxpro-code" href="gallery.html#it">IT</a>
+<a class="maxpro-code" href="gallery.html#mk">MK</a>
+<a class="maxpro-code" href="gallery.html#itmk">ITMK</a>
+<a class="maxpro-code" href="gallery.html#d">D</a>
+</div>
+</section>
+</div></body></html>
