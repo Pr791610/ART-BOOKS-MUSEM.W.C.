@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="monetag" content="d22be73ddd33475e9c734af16f02de91">
+<title>ART & BOOKS.w.c — PERSONAL MUSEUM</title>
+
+<style>
+body{
+  margin:0;
+  background:radial-gradient(circle at 50% -10%,#5a1b12 0,transparent 32%),linear-gradient(145deg,#160607,#3a0808 50%,#170806);
+  color:#f0dfb0;
+  font-family:Arial;
+}
+
+/* HEADER */
+header{
+  padding:45px;
+  text-align:center;
+  font-size:28px;
+  letter-spacing:4px;
+  background:linear-gradient(145deg,#520b10,#21100b);
+}
+
+/* SUBTITLE */
+.sub{
+  text-align:center;
+  color:#d2c19a;
+  margin-top:-20px;
+  margin-bottom:20px;
+  font-size:13px;
+}
+
+/* ARCHIVE COLLECTION BUTTONS */
+.archive-collections{
+  max-width:1100px;
+  margin:0 auto 10px;
+  padding:0 20px 8px;
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:9px;
+}
+.archive-btn{
+  display:block;
+  padding:12px 8px;
+  text-align:center;
+  text-decoration:none;
+  color:#f0dfb0;
+  background:linear-gradient(145deg,#641015,#2a0809);
+  border:1px solid #c9a22799;
+  border-radius:9px;
+  font-size:12px;
+  font-weight:bold;
+  transition:.2s;
+}
+.archive-btn:hover{
+  transform:translateY(-2px);
+  border-color:#e6c65c;
+  box-shadow:0 0 16px #c9a22733;
+}
+
+/* SEARCH */
+input{
+  width:90%;
+  display:block;
+  margin:20px auto;
+  padding:12px;
+  border-radius:8px;
+  border:none;
+}
+
+/* SECTION TITLE */
+h2{
+  margin-left:20px;
+  border-left:4px solid #c9a227;
+  padding-left:10px;
+}
+
+/* ART GRID */
+.grid{
+  columns:300px;
+  column-gap:15px;
+  padding:20px;
+}
+
+/* CARD */
+.card{
+  background:linear-gradient(145deg,#5a0b10,#21100b);border:1px solid #c9a22799;
+  margin-bottom:15px;
+  border-radius:12px;
+  overflow:hidden;
+  break-inside:avoid;
+  transition:0.3s;
+  cursor:pointer;
+}
+
+.card:hover{
+  transform:scale(1.02);
+}
+
+.card img{
+  width:100%;
+  cursor:pointer;
+}
+
+/* TEXT BLOCK */
+.info{
+  padding:10px;
+}
+
+.code{
+  color:#e6c65c;
+  font-weight:bold;
+  font-size:13px;
+}
+
+.title{
+  font-size:15px;
+  margin-top:5px;
+}
+
+.subtitle{
+  font-size:12px;
+  color:#d2c19a;
+}
+
+/* BUTTON */
+.btn{
+  display:block;
+  padding:10px;
+  margin:6px;
+  text-align:center;
+  background:linear-gradient(145deg,#641015,#2a0809);
+  color:#f0dfb0;
+  text-decoration:none;
+  border-radius:8px;
+  transition:0.3s;
+}
+
+.btn:hover{
+  background:#74151a;
+}
+
+/* LIGHTBOX */
+#lightbox{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.95);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:999;
+}
+
+#lightbox img{
+  max-width:90%;
+  max-height:80%;
+  border-radius:10px;
+}
+
+#lightbox span{
+  margin-top:10px;
+  color:#ccc;
+}
+
+/* CLOSE BUTTON */
+.close-btn{
+  position:absolute;
+  top:20px;
+  right:30px;
+  color:#ccc;
+  font-size:28px;
+  font-weight:bold;
+  cursor:pointer;
+  z-index:1000;
+}
+
+.close-btn:hover{
+  color:#f0dfb0;
+}
+
+/* MUSEUM COLLECTION HUB */
+.collection-group{max-width:1100px;margin:18px auto;padding:14px;border:1px solid #c9a22766;border-radius:14px;background:linear-gradient(145deg,#3b090d,#21100b);box-shadow:0 10px 25px #0007,inset 0 0 18px #c9a22710}
+.collection-title{color:#e6c65c;font-weight:bold;letter-spacing:1px;padding:8px 10px;border-left:4px solid #c9a227;margin-bottom:10px}
+.collection-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:9px}
+.collection-btn{display:block;padding:12px 9px;text-align:center;text-decoration:none;border:1px solid #c9a22799;border-radius:9px;background:linear-gradient(145deg,#641015,#2a0809);color:#f0dfb0;font-size:12px;word-break:break-all;transition:.2s}
+.collection-btn:hover{transform:translateY(-2px);border-color:#e6c65c;box-shadow:0 0 16px #c9a22733}
+
+</style>
+
+<style id="responsive-device-mode">
+/* KILLER RESPONSIVE DEVICE MODE — COMPUTER / PHONE */
+*{box-sizing:border-box}
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+body{min-width:320px}
+
+/* COMPUTER MODE */
+@media (min-width: 769px){
+  header{font-size:32px;padding:42px 20px}
+  .sub{font-size:14px}
+  input{width:min(1100px,92%);font-size:16px}
+  h2{max-width:1100px;margin:28px auto 14px}
+  .grid{width:min(1200px,96%);margin:0 auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;padding:20px 0;columns:auto}
+  .card{margin:0;min-width:0}
+  .collection-group{max-width:1100px;margin:18px auto;padding:16px}
+  .collection-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  #payments,#projects,#apps{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:0 0 10px}
+  #payments .btn,#projects .btn,#apps .btn{margin:0}
+  .maxpro-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+
+/* PHONE MODE */
+@media (max-width: 768px){
+  header{padding:24px 10px;font-size:22px;letter-spacing:2px}
+  .sub{font-size:11px;margin:0 12px 14px;line-height:1.5}
+  input{width:94%;font-size:15px;padding:13px;margin:14px auto}
+  .archive-collections{grid-template-columns:1fr 1fr;padding:0 10px;gap:7px}
+  .archive-btn{font-size:11px;padding:11px 6px}
+  h2{font-size:18px;margin:20px 12px 10px}
+  .grid{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;padding:10px}
+  .card{margin:0;border-radius:10px}
+  .card img{display:block;width:100%;height:auto}
+  .info{padding:8px}
+  .code{font-size:11px}
+  .title{font-size:13px}
+  .subtitle{font-size:10px;line-height:1.3}
+  #payments,#projects,#apps{width:100%;display:grid;grid-template-columns:1fr;gap:7px;padding:0 10px}
+  .btn{margin:0;padding:12px 8px;font-size:13px}
+  .collection-group{margin:12px 10px;padding:10px}
+  .collection-title{font-size:14px}
+  .collection-grid{grid-template-columns:1fr}
+  .collection-btn{padding:12px 8px;font-size:13px;word-break:break-word}
+  .maxpro-orth{width:calc(100% - 20px);margin:18px auto;padding:12px}
+  .maxpro-orth h2{margin:0 0 10px;font-size:16px}
+  .maxpro-grid{grid-template-columns:1fr 1fr;gap:7px}
+  .maxpro-btn{padding:12px 7px;font-size:12px}
+  .maxpro-code{margin:3px;padding:7px 10px;font-size:12px}
+  #lightbox img{max-width:94%;max-height:76%}
+}
+
+/* SMALL PHONE MODE */
+@media (max-width: 420px){
+  header{font-size:19px;padding:20px 8px}
+  .grid{grid-template-columns:1fr 1fr;gap:7px;padding:7px}
+  .maxpro-grid{grid-template-columns:1fr}
+  .maxpro-btn{font-size:13px}
+}
+</style>
+
+</head>
+
+<body>
+
+<header>ART & BOOKS.w.c</header>
+<div class="sub">Personal Museum • Archive System • MK / IT / ITMK / D Collection</div>
+
+<input id="search" placeholder="Search ART / PAYMENTS / PROJECTS / APPS">
+
+<!-- ART -->
+<h2>🎨 ART ARCHIVE • COLLECTIONS</h2>
+<div class="archive-collections">
+  <a class="archive-btn" href="#it">🇮🇹 IT COLLECTION</a>
+  <a class="archive-btn" href="#mk">🇲🇰 MK COLLECTION</a>
+  <a class="archive-btn" href="#itmk">🇮🇹🇲🇰 ITMK COLLECTION</a>
+  <a class="archive-btn" href="#d">🐉 D COLLECTION</a>
+  <a class="archive-btn" href="#certificat">📜 CERTIFICAT COLLECTIONS</a>
+</div>
+<div class="grid" id="art"></div>
+
+<!-- PAYMENTS -->
+<h2>COLLECTION / PAYMENTS</h2>
+<div id="payments"></div>
+
+<!-- MUSEUM COLLECTIONS / EXTERNAL VAULTS -->
+<h2>🏛️ MUSEUM COLLECTIONS / VAULT LINKS</h2>
+<div id="collections"></div>
+
+<!-- PROJECTS -->
+<h2>PROJECTS VAULT</h2>
+<div id="projects"></div>
+
+<!-- APPS -->
+<h2>SYSTEM LINKS</h2>
+<div id="apps"></div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox(event)">
+  <span class="close-btn" onclick="closeLightbox(event)">&times;</span>
+  <img id="lightbox-img" alt="">
+  <span id="lightbox-title"></span>
+</div>
+
+<script>
+
+/* =========================
+   PERSONAL ART ARCHIVE (YOUR STYLE)
+========================= */
+
+const ART = [
+  {
+    img:"images/mk241.jpg",
+    code:"ITMK241",
+    title:"IT COLECTION",
+    subtitle:"La Conoscenza e la Vita • Dual Language Archive",
+    series:"ITMK"
+  },
+  {
+    img:"images/it242.jpg",
+    code:"IT242",
+    title:"MK COLECTIONE",
+    subtitle:"Abstract Energy Field Composition",
+    series:"IT"
+  },
+  {
+    img:"images/frozen.jpg",
+    code:"IT243",
+    title:"ITMK COLECTIONE",
+    subtitle:"Time • Ice • Light Structure",
+    series:"IT"
+  },
+  {
+    img:"images/flowers.jpg",
+    code:"IT244",
+    title:"D COLECTIONE",
+    subtitle:"Nature Memory / Emotional Contrast",
+    series:"IT"
+  },
+  {
+    img:"images/d007.jpg",
+    code:"D007",
+    title:"SERTIFICAT COLECTIONE",
+    subtitle:"Dark Archive / Symbolic System",
+    series:"D"
+  }
+];
+
+/* =========================
+   PLATFORM SYSTEM
+========================= */
+
+const DATA = [
+  {url:"https://buy.stripe.com/9B65kE81Gd34gJTehNcjS0c", label:"💳 Main Payment System", group:"payments"},
+  {url:"https://wise.com/pay/r/jPLz1Rs0VI8H-n0", label:"💳 Wise Payment", group:"payments"},
+  {url:"https://github.com/Pr791610/art-books-sandbox-system", label:"🧠 GitHub • Art Books Sandbox System", group:"projects"},
+  {url:"https://github.com/Pr791610/manasiev-art-books", label:"🧠 GitHub • Manasiev Art Books", group:"projects"},
+  {url:"https://art-books-cupon-valore.netlify.app", label:"🔗 Art Books Coupon Value", group:"apps"},
+  {url:"https://qr-art-certificate-system.netlify.app", label:"🔗 QR Art Certificate System", group:"apps"}
+];
+
+const COLLECTIONS = [
+  {title:"🇮🇹 IT COLEZIONE",links:["https://buy.stripe.com/fZu4gA94G9Fx4YX2Lw5c40X","https://buy.stripe.com/8x200k80C7xpcrp4TE5c40W","https://buy.stripe.com/28E5kE2Gi04Xezx4TE5c40V","https://buy.stripe.com/14A6oI6WydVNcrpcm65c40U","https://buy.stripe.com/3cIbJ2dkW04XgHFfyi5c40T","https://buy.stripe.com/8x27sMft4bNFfDB85Q5c40N","https://buy.stripe.com/8x29AU4Oq2d51MLdqa5c40K","https://buy.stripe.com/aFa4gAa8K8BtfDBdqa5c40J","https://buy.stripe.com/28EbJ2cgS04X1MLcm65c40I","https://buy.stripe.com/6oU14ocgS6tlbnl2Lw5c40H","https://buy.stripe.com/3cIdRaep004Xezxdqa5c40G","https://buy.stripe.com/3cI7sM2GibNF4YX5XI5c40F","https://buy.stripe.com/bJe5kE80C3h9bnlgCm5c40E","https://buy.stripe.com/4gMfZi5Su04XfDB5XI5c40D","https://buy.stripe.com/00w8wQa8K3h9crp1Hs5c40S","https://buy.stripe.com/cNidRa2Gi7xp8b971M5c40C","https://buy.stripe.com/fZu9AU6Wy7xpdvtdqa5c40B"
+
+,"https://buy.stripe.com/28E14odkW3h96311Hs5c40A","https://buy.stripe.com/8x2fZi1Ce9Fx4YX99U5c40L","https://buy.stripe.com/9B6cN6gx89FxfDB85Q5c40R","https://buy.stripe.com/dRmfZi1CebNF1MLfyi5c40Q","https://buy.stripe.com/28E5kEcgS1911MLcm65c40P","https://buy.stripe.com/28EaEY4Oq8Bt3UTfyi5c40O","https://buy.stripe.com/bJe14odkW2d5gHF99U5c40z","https://buy.stripe.com/8x200kft41917751Hs5c40y","https://buy.stripe.com/5kQ6oI4Oq04X77585Q5c40x","https://buy.stripe.com/00w28s94G7xp3UT85Q5c40w","https://buy.stripe.com/8x2cN63Km4ld3UT2Lw5c40v","https://buy.stripe.com/8x2cN62Gi8Btbnl4TE5c40u","https://buy.stripe.com/14A7sMcgS2d54YXeue5c40s"
+
+,"https://buy.stripe.com/dRmdRa1Ce5phgHFeue5c40r","https://buy.stripe.com/14AaEYcgSdVNezx4TE5c40q","https://buy.stripe.com/4gM8wQ0ya4ldfDBfyi5c40p","https://buy.stripe.com/6oUeVeep03h9bnlcm65c40o","https://buy.stripe.com/28E3cw94G04X3UTgCm5c40n","https://buy.stripe.com/6oU00k80C2d5bnleue5c40m","https://buy.stripe.com/3cIfZi80CaJB7753PA5c40l","https://buy.stripe.com/4gM6oI3Km3h9ezxadY5c40k"
+,"https://buy.stripe.com/eVqaEYcgS8BtgHF4TE5c40j","https://buy.stripe.com/cNi4gAep0eZRgHFadY5c40i","https://buy.stripe.com/6oU14o2Gi8Btdvt2Lw5c40h","https://buy.stripe.com/5kQdRa80Cg3Vajheue5c40g","https://buy.stripe.com/eVq00k0ya5phgHFadY5c40f","https://buy.stripe.com/dRmbJ25SuaJBajhdqa5c40e","https://buy.stripe.com/5kQ5kE4Oq2d51ML0Do5c40c","https://buy.stripe.com/cNi00k94GaJB0IH5XI5c409","https://buy.stripe.com/eVq4gAdkW8Bt8b94TE5c408","https://buy.stripe.com/3cI5kE3KmeZRcrpeue5c407","https://buy.stripe.com/5kQ6oIcgSg3Vdvt0Do5c406"
+
+,"https://buy.stripe.com/00w00k1Ce2d53UTeue5c404"]},
+  {title:"📚 LIBRI / BOOKS / КНИГИ",links:["https://photos.app.goo.gl/jNDYKCwyJR3wMzuX7"]},
+  {title:"🇮🇹🇲🇰 ITMK COLEZIONE",links:["https://photos.app.goo.gl/mdyGABQwkzY4JqT47","https://photos.app.goo.gl/2f6VNaoQKxzaphSz6"]},
+  {title:"📜 SERTIFICAT ITMK",links:["https://photos.app.goo.gl/6tTNSAjKrMZGoqGWA"]},
+  {title:"🇲🇰 MK COLEZIONE",links:["https://photos.app.goo.gl/m5SKv9PwMvSNk3GV7"]},
+  {title:"🐉 D COLEZIONE",links:["https://photos.app.goo.gl/x2UdBWXYVnnZ4NECA","https://photos.app.goo.gl/FDPhFkG9aTyt1PFP8"]},
+  {title:"📜 D SERTIFICATI COLEZIONE",links:["https://photos.app.goo.gl/3z4ZQHuvkxCMPooB6"]},
+  {title:"☦ ПРАВОСЛАВЕН КАЛЕНДАР",links:["https://www.canva.com/design/DAHSNjOcg1Y/eW9U5MY62I3sNF4ve6JwWQ/view"]},
+  {title:"⛪ ПРАВОСЛАВНИ ХРАМОВИ",links:["https://pravoslavnihramovi.netlify.app/"]},
+  {title:"🗺️ МАНАСТИРИ • МАПА / КАРТА",links:["https://monasteryworldmap.com/en/north-macedonia?utm_source=chatgpt.com"]},
+  {title:"☦ ПРАВОСЛАВЕН КАЛЕНДАР И ОБРЕДИ",links:["https://canva.link/8kkqvrttql97cx3"]},
+  {title:"⛪ МАКЕДОНСКА ПРАВОСЛАВНА ЦРКВА",links:["https://www.m-p-c.org/?page_id=121&utm_source=chatgpt.com"]},
+  {title:"🔳 QR COLEZIONE",links:["https://photos.app.goo.gl/jwtnYPYzffY1PVAg8"]},
+  {title:"🖼️ GALLERY",links:["https://photos.app.goo.gl/Pn5iKmvghuG5pMfXA","https://photos.app.goo.gl/CTeesSisKaGpzfF36"]},
+  {title:"🎟️ CUPONE",links:["https://photos.app.goo.gl/BHoTmd7ujfXhwgtC9"]}
+];
+
+function escapeHtml(text) {
+  const map = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'};
+  return text.replace(/[&<>"']/g, m => map[m]);
+}
+
+function renderArt(){
+  const artDiv = document.getElementById("art");
+  artDiv.innerHTML = "";
+  ART.forEach(a => {
+    const card = document.createElement("div");
+    card.className = "card";
+    const img = document.createElement("img");
+    img.src = a.img;
+    img.alt = a.title;
+    img.onclick = () => openLightbox(a.img, a.title);
+    img.onerror = () => {
+      img.style.display = "none";
+      const missing = document.createElement("div");
+      missing.style.cssText = "padding:28px 10px;text-align:center;color:#c9a227;font-size:12px";
+      missing.textContent = "IMAGE NOT FOUND: " + a.img;
+      card.insertBefore(missing, info);
+    };
+    const info = document.createElement("div");
+    info.className = "info";
+    info.innerHTML = `<div class="code">N° ${escapeHtml(a.code)}</div><div class="title">${escapeHtml(a.title)}</div><div class="subtitle">${escapeHtml(a.subtitle)}</div>`;
+    card.appendChild(img);
+    card.appendChild(info);
+    artDiv.appendChild(card);
+  });
+}
+renderArt();
+
+function renderPlatform(filter = ""){
+  const payments=document.getElementById("payments");
+  const projects=document.getElementById("projects");
+  const apps=document.getElementById("apps");
+  const collections=document.getElementById("collections");
+  payments.innerHTML=""; projects.innerHTML=""; apps.innerHTML=""; collections.innerHTML="";
+
+  DATA.filter(item => item.url.toLowerCase().includes(filter.toLowerCase()) || item.label.toLowerCase().includes(filter.toLowerCase()))
+    .forEach(item => {
+      const btn=document.createElement("a");
+      btn.className="btn"; btn.href=item.url; btn.target="_blank"; btn.rel="noopener noreferrer"; btn.textContent=item.label;
+      if(item.group==="payments") payments.appendChild(btn);
+      else if(item.group==="projects") projects.appendChild(btn);
+      else apps.appendChild(btn);
+    });
+
+  COLLECTIONS.forEach(collection => {
+    const matching=collection.links.filter(url => collection.title.toLowerCase().includes(filter.toLowerCase()) || url.toLowerCase().includes(filter.toLowerCase()));
+    if(!matching.length) return;
+    const box=document.createElement("div"); box.className="collection-group";
+    const title=document.createElement("div"); title.className="collection-title"; title.textContent=collection.title;
+    const grid=document.createElement("div"); grid.className="collection-grid";
+    matching.forEach((url,i) => {
+      const btn=document.createElement("a");
+      btn.className="collection-btn"; btn.href=url; btn.target="_blank"; btn.rel="noopener noreferrer";
+      const t=collection.title.toUpperCase();
+      let prefix="COLLECTION";
+      if(t.includes("ITMK") && t.includes("SERTIFICAT")) prefix="ITMK CERTIFICAT";
+      else if(t.includes("D SERTIFICATI")) prefix="D CERTIFICAT";
+      else if(t.includes("IT COLEZIONE")) prefix="IT";
+      else if(t.includes("MK COLEZIONE")) prefix="MK";
+      else if(t.includes("ITMK COLEZIONE")) prefix="ITMK";
+      else if(t.includes("D COLEZIONE")) prefix="D";
+      else if(t.includes("LIBRI")) prefix="BOOKS";
+      else if(t.includes("CUPONE")) prefix="CUPONE";
+      else if(t.includes("GALLERY")) prefix="GALLERY";
+      else if(t.includes("QR COLEZIONE")) prefix="QR";
+      btn.textContent=collection.links.length>1 ? `${prefix} ${String(i+1).padStart(2,"0")}` : `OPEN ${prefix}`;
+      btn.title=url; grid.appendChild(btn);
+    });
+    box.appendChild(title); box.appendChild(grid); collections.appendChild(box);
+  });
+}
+renderPlatform();
+
+/* =========================
+   LIGHTBOX
+========================= */
+
+function openLightbox(img, title){
+  document.getElementById("lightbox").style.display = "flex";
+  document.getElementById("lightbox-img").src = img;
+  document.getElementById("lightbox-title").textContent = title;
+}
+
+function closeLightbox(event){
+  if(event.target.id === "lightbox" || event.target.classList.contains("close-btn")){
+    document.getElementById("lightbox").style.display = "none";
+  }
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+document.getElementById("search").addEventListener("input", e => {
+  const q = e.target.value.trim().toLowerCase();
+
+  // Platform / payment / project / app links
+  renderPlatform(q);
+
+  // ART archive cards
+  document.querySelectorAll("#art .card").forEach(card => {
+    const haystack = card.textContent.toLowerCase();
+    card.style.display = (!q || haystack.includes(q)) ? "" : "none";
+  });
+
+  // Collection navigation buttons
+  document.querySelectorAll(".archive-btn").forEach(btn => {
+    btn.style.display = (!q || btn.textContent.toLowerCase().includes(q)) ? "" : "block";
+  });
+});
+
+</script>
+  
+</div>
+  <style>
+.hub-button{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  text-decoration:none;
+  color:#f5d77a;
+  background:linear-gradient(145deg,#17120b,#30230d,#120e09);
+  border:1px solid #b8943d;
+  border-radius:16px;
+  padding:18px 12px;
+  min-height:110px;
+  box-shadow:0 0 14px rgba(212,168,65,.25),
+             inset 0 0 12px rgba(255,215,120,.08);
+  transition:.25s;
+}
+
+.hub-button:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 24px rgba(212,168,65,.5);
+}
+
+.hub-button span{
+  font-weight:bold;
+  font-size:15px;
+  letter-spacing:1px;
+  margin-top:6px;
+}
+
+.hub-button small{
+  font-size:10px;
+  color:#d8c28a;
+  margin-top:5px;
+}
+</style>
+
+
+
+<style>
+/* MAX PRO Orthodox navigation */
+.maxpro-orth{max-width:1100px;margin:30px auto;padding:18px;border:1px solid #c9a22766;border-radius:16px;background:linear-gradient(145deg,#3b090d,#21100b);box-shadow:0 12px 30px #0008,inset 0 0 24px #c9a22712}
+.maxpro-orth h2{margin:0 0 14px;color:#e6c65c;border-left:4px solid #c9a227;padding-left:10px}
+.maxpro-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.maxpro-btn{display:block;padding:15px;text-align:center;text-decoration:none;font-weight:bold;border:1px solid #c9a227;border-radius:11px;background:linear-gradient(145deg,#641015,#2a0809);color:#f0dfb0;box-shadow:0 6px 16px #0007;transition:.2s}
+.maxpro-btn:hover{transform:translateY(-2px);border-color:#e6c65c;box-shadow:0 0 18px #c9a22733}
+.maxpro-code{display:inline-block;margin:5px;padding:8px 12px;border:1px solid #c9a227;border-radius:9px;color:#e6c65c;background:#3a0808}
+.coupon-mini{max-width:650px;padding:12px 16px;margin-top:18px;margin-bottom:18px}
+.coupon-mini h2{font-size:16px;margin-bottom:8px}
+.coupon-mini-row{display:flex;justify-content:center;align-items:center;gap:5px;flex-wrap:wrap}
+.coupon-mini .maxpro-code{margin:2px;padding:6px 10px;font-size:12px}
+</style>
+<section class="maxpro-orth">
+<h2>☦ ПРАВОСЛАВЕН ВЕРСКИ КАЛЕНДАР</h2>
+<div class="maxpro-grid">
+<a class="maxpro-btn" href="pravoslaven-hub.html">☦ ПРАВОСЛАВЕН ВЕРСКИ КАЛЕНДАР</a>
+<a class="maxpro-btn" href="crkvi.html">⛪ ПРАВОСЛАВНИ ЦРКВИ</a>
+<a class="maxpro-btn" href="manastiri.html">🏛️ ПРАВОСЛАВНИ МАНАСТИРИ</a>
+<a class="maxpro-btn" href="crkvi-manastiri.html">🗺️ ЦРКВИ + МАНАСТИРИ • КАРТА / GPS</a>
+</div>
+</section>
+<section class="maxpro-orth" id="certificat">
+<h2>📜 CERTIFICAT COLLECTIONS</h2>
+<div class="maxpro-grid"><a class="maxpro-btn" href="#certificat">📜 IT / ITMK / MK / D CERTIFICATS</a></div>
+</section>
+<section class="maxpro-orth coupon-mini">
+<h2>🎟️ CUPON SYSTEM</h2>
+<div class="coupon-mini-row">
+<a id="it" class="maxpro-code" href="gallery.html#it">IT</a>
+<a id="mk" class="maxpro-code" href="gallery.html#mk">MK</a>
+<a id="itmk" class="maxpro-code" href="gallery.html#itmk">ITMK</a>
+<a id="d" class="maxpro-code" href="gallery.html#d">D</a>
+</div>
+</section>
+
+<section class="maxpro-orth" id="sertificat-collection">
+<h2>📜 SERTIFICAT COLECTIONE</h2>
+<div class="maxpro-grid">
+<a class="maxpro-btn" href="https://photos.app.goo.gl/6tTNSAjKrMZGoqGWA" target="_blank" rel="noopener noreferrer">SERTIFICAT ITMK</a>
+<a class="maxpro-btn" href="https://photos.app.goo.gl/3z4ZQHuvkxCMPooB6" target="_blank" rel="noopener noreferrer">SERTIFICAT D</a>
+</div>
+</section>
+
+</body></html>
